@@ -1,3 +1,4 @@
+import { Database } from '@/lib/database.types'
 import { createServerClient } from '@supabase/ssr'
 import { type NextRequest, NextResponse } from 'next/server'
 
@@ -8,7 +9,7 @@ export const updateSession = async (request: NextRequest) => {
     },
   })
 
-  const supabase = createServerClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!, {
+  const supabase = createServerClient<Database>(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!, {
     cookies: {
       getAll() {
         return request.cookies.getAll()
@@ -27,13 +28,9 @@ export const updateSession = async (request: NextRequest) => {
   // https://supabase.com/docs/guides/auth/server-side/nextjs
   const user = await supabase.auth.getUser()
 
-  // protected routes
-  if (request.nextUrl.pathname.startsWith('/dashboard') && user.error) {
-    return NextResponse.redirect(new URL('/', request.url))
-  }
-
   if (request.nextUrl.pathname === '/' && !user.error) {
-    return NextResponse.redirect(new URL('/dashboard', request.url))
+    const primarySystem = await supabase.from("user_profiles").select('available_systems (slug)').eq("id", user.data.user.id).single();
+    return NextResponse.redirect(new URL(`/${primarySystem.data?.available_systems?.slug ?? 'wod'}/dashboard`, request.url))
   }
 
   return response

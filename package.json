@@ -3,12 +3,13 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "supabase-migrate": "npx supabase db diff --use-migra -f ${npm_config_name} && npx supabase gen types typescript --local > ./src/lib/database.types.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.1",
     "@radix-ui/react-avatar": "^1.1.1",
-    "@radix-ui/react-checkbox": "^1.1.1",
+    "@radix-ui/react-checkbox": "^1.1.2",
     "@radix-ui/react-collapsible": "^1.1.1",
     "@radix-ui/react-dialog": "^1.1.2",
     "@radix-ui/react-dropdown-menu": "^2.1.2",
@@ -24,6 +25,7 @@
     "autoprefixer": "10.4.17",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
+    "dayjs": "^1.11.13",
     "geist": "^1.2.1",
     "lucide-react": "^0.436.0",
     "next": "latest",
@@ -34,6 +36,7 @@
     "react-dom": "18.2.0",
     "react-hook-form": "^7.53.1",
     "react-icons": "^5.3.0",
+    "vaul": "^1.1.1",
     "zod": "^3.23.8"
   },
   "devDependencies": {

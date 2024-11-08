@@ -1,15 +1,19 @@
 'use client'
 
 import * as React from 'react'
-import { AudioWaveform, BookOpen, Bot, Command, Frame, GalleryVerticalEnd, Map, PieChart, Settings2, SquareTerminal } from 'lucide-react'
-
-import { NavMain } from '@/components/sidebar/nav-main'
-import { NavProjects } from '@/components/sidebar/nav-projects'
+import { BookOpen, Frame, Eye, Settings2, SquareTerminal } from 'lucide-react'
+import { GiDiceTwentyFacesTwenty } from 'react-icons/gi'
 import { NavUser } from '@/components/sidebar/nav-user'
 import { TeamSwitcher } from '@/components/sidebar/team-switcher'
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarRail, SidebarTrigger } from '@/components/ui/sidebar'
+import { useEffect, useState } from 'react'
+import { UserProfile } from '@/lib/application.types'
+import { UserProfilesApi } from '@/api/client/user/profile.api'
+import { NavGroup } from './nav-group'
+import { DashboardIcon } from '@radix-ui/react-icons'
 
 // This is sample data.
+
 const data = {
   user: {
     name: 'shadcn',
@@ -18,24 +22,26 @@ const data = {
   },
   teams: [
     {
-      name: 'Acme Inc',
-      logo: GalleryVerticalEnd,
-      plan: 'Enterprise',
+      name: 'World of Darkness',
+      logo: Eye,
+      plan: 'Storytelling',
+    },
+  ],
+  dungeonMaster: [
+    {
+      name: 'Dashboard',
+      url: '/wod/dashboard',
+      icon: <DashboardIcon />,
     },
     {
-      name: 'Acme Corp.',
-      logo: AudioWaveform,
-      plan: 'Startup',
-    },
-    {
-      name: 'Evil Corp.',
-      logo: Command,
-      plan: 'Free',
+      name: 'Adventures',
+      url: '/wod/adventures',
+      icon: <GiDiceTwentyFacesTwenty />,
     },
   ],
   navMain: [
     {
-      title: 'Playground',
+      title: 'Adventures',
       url: '#',
       icon: SquareTerminal,
       isActive: true,
@@ -55,43 +61,12 @@ const data = {
       ],
     },
     {
-      title: 'Models',
-      url: '#',
-      icon: Bot,
-      items: [
-        {
-          title: 'Genesis',
-          url: '#',
-        },
-        {
-          title: 'Explorer',
-          url: '#',
-        },
-        {
-          title: 'Quantum',
-          url: '#',
-        },
-      ],
-    },
-    {
       title: 'Documentation',
       url: '#',
       icon: BookOpen,
       items: [
         {
           title: 'Introduction',
-          url: '#',
-        },
-        {
-          title: 'Get Started',
-          url: '#',
-        },
-        {
-          title: 'Tutorials',
-          url: '#',
-        },
-        {
-          title: 'Changelog',
           url: '#',
         },
       ],
@@ -105,18 +80,6 @@ const data = {
           title: 'General',
           url: '#',
         },
-        {
-          title: 'Team',
-          url: '#',
-        },
-        {
-          title: 'Billing',
-          url: '#',
-        },
-        {
-          title: 'Limits',
-          url: '#',
-        },
       ],
     },
   ],
@@ -126,20 +89,24 @@ const data = {
       url: '#',
       icon: Frame,
     },
-    {
-      name: 'Sales & Marketing',
-      url: '#',
-      icon: PieChart,
-    },
-    {
-      name: 'Travel',
-      url: '#',
-      icon: Map,
-    },
   ],
 }
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const [loading, setLoading] = useState(true)
+  const [user, setUser] = useState<UserProfile | null>(null)
+  const { getUserProfile } = UserProfilesApi()
+
+  useEffect(() => {
+    const fetchUserProfile = async () => {
+      const profile = await getUserProfile()
+      setUser(profile)
+      setLoading(false)
+    }
+
+    fetchUserProfile()
+  }, [])
+
   return (
     <>
       <Sidebar collapsible="icon" {...props}>
@@ -147,12 +114,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           <TeamSwitcher teams={data.teams} />
         </SidebarHeader>
         <SidebarContent>
-          <NavMain items={data.navMain} />
-          <NavProjects projects={data.projects} />
+          <NavGroup title="Dungeon Master" items={data.dungeonMaster} />
         </SidebarContent>
-        <SidebarFooter>
-          <NavUser user={data.user} />
-        </SidebarFooter>
+        <SidebarFooter>{loading ? <></> : <NavUser user={user} />}</SidebarFooter>
         <SidebarRail />
       </Sidebar>
       <SidebarTrigger />
