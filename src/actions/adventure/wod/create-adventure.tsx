@@ -9,14 +9,14 @@ import { z } from 'zod'
 const schema = z.object({
   name: z.string().min(2),
   short_description: z.string().max(500),
-  long_description: z.string(),
+  long_description: z.string().optional(),
   image: z.instanceof(File).optional(),
   looking_for_players: z.boolean().default(false),
   is_active: z.boolean().default(false),
   slug: z.string(),
   max_players: z.number().int().positive(),
   session_duration: z.number().int().positive(),
-  tags: z.array(z.string()),
+  tags: z.array(z.string()).optional(),
 })
 
 export const createWodAdventure = actionClient.schema(schema).action(async ({ parsedInput }) => {

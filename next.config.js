@@ -9,6 +9,10 @@ const nextConfig = {
       {
         protocol: 'http',
         hostname: '127.0.0.1',
+      },
+      {
+        protocol: 'https',
+        hostname: (process.env.NEXT_PUBLIC_SUPABASE_URL || 'http://localhost:54321').split('//')[1].split(':')[0],
       }
     ]
   },

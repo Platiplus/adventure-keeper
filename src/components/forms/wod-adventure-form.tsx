@@ -26,7 +26,7 @@ const formSchema = z.object({
   short_description: z.string().max(500, {
     message: 'Short description must not exceed 500 characters.',
   }),
-  long_description: z.string(),
+  long_description: z.string().optional(),
   image: z.instanceof(File).optional(),
   image_url: z.string().optional(),
   looking_for_players: z.boolean().default(false),
@@ -34,7 +34,7 @@ const formSchema = z.object({
   slug: z.string(),
   max_players: z.number().int().positive(),
   session_duration: z.number().int().positive(),
-  tags: z.array(z.string()),
+  tags: z.array(z.string()).optional(),
 })
 
 type AdventureFormProps = {
@@ -237,7 +237,7 @@ export const WodAdventureForm = ({ adventure, tags }: AdventureFormProps = {}) =
               </div>
               <ScrollArea className="h-72 w-full rounded-md border">
                 <div className="flex flex-col gap-4 p-4">
-                  {(tags || []).map((tag: any) => (
+                  {(tags || []).map((tag) => (
                     <FormField
                       key={tag.id}
                       control={form.control}
@@ -249,7 +249,8 @@ export const WodAdventureForm = ({ adventure, tags }: AdventureFormProps = {}) =
                               <Checkbox
                                 checked={field.value?.includes(tag.slug)}
                                 onCheckedChange={(checked) => {
-                                  return checked ? field.onChange([...field.value, tag.slug]) : field.onChange(field.value?.filter((value) => value !== tag.slug))
+                                  const fieldValue = field.value || []
+                                  return checked ? field.onChange([...fieldValue, tag.slug]) : field.onChange(field.value?.filter((value) => value !== tag.slug))
                                 }}
                               />
                             </FormControl>

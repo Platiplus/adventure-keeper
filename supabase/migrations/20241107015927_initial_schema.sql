@@ -260,3 +260,26 @@ as permissive
 for select
 to authenticated
 using (true);
+
+create policy "Read/Write access to adventure_covers folder mjfl0w_0"
+on "storage"."objects"
+as permissive
+for select
+to authenticated
+using (((bucket_id = 'adventure-keeper-data-prod'::text) AND ((storage.foldername(name))[1] = 'adventure_covers'::text) AND (auth.role() = 'authenticated'::text)));
+
+
+create policy "Read/Write access to adventure_covers folder mjfl0w_1"
+on "storage"."objects"
+as permissive
+for insert
+to authenticated
+with check (((bucket_id = 'adventure-keeper-data-prod'::text) AND ((storage.foldername(name))[1] = 'adventure_covers'::text) AND (auth.role() = 'authenticated'::text)));
+
+
+create policy "Read/Write access to adventure_covers folder mjfl0w_2"
+on "storage"."objects"
+as permissive
+for update
+to authenticated
+using (((bucket_id = 'adventure-keeper-data-prod'::text) AND ((storage.foldername(name))[1] = 'adventure_covers'::text) AND (auth.role() = 'authenticated'::text)));
