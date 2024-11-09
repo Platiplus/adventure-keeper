@@ -40,13 +40,13 @@ export type Database = {
           dg_master_id: string
           id: number
           image_url: string | null
-          is_active: boolean | null
+          is_active: boolean
           long_description: string | null
-          looking_for_players: boolean | null
+          looking_for_players: boolean
           max_players: number
           name: string
           session_duration: number
-          short_description: string | null
+          short_description: string
           slug: string
           tags: string[] | null
         }
@@ -88,7 +88,7 @@ export type Database = {
           image_url: string | null
           is_active: boolean
           name: string
-          short_description: string | null
+          short_description: string
           slug: string
         }
         Insert: {

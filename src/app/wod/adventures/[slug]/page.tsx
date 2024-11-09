@@ -1,8 +1,8 @@
 import { User, Users, Calendar, MapPin, Clock, Sword, Shield, Scroll } from 'lucide-react'
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Separator } from "@/components/ui/separator"
+import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Separator } from '@/components/ui/separator'
 import { AdventuresWodApi } from '@/api/server/wod/adventure-wod.api'
 import { createClient } from '@/utils/supabase/server'
 import { redirect } from 'next/navigation'
@@ -11,7 +11,7 @@ import Image from 'next/image'
 import dayjs from 'dayjs'
 import { TagsApi } from '@/api/server/common/tags.api'
 import { UserProfilesApi } from '@/api/server/common/profiles.api'
-import logger from '@/lib/logger'
+import { WodAdventureDialog } from '@/components/dialogs/wod-adventure-dialog'
 
 type AdventureSummaryPageProps = {
   params: Promise<{ slug: string }>
@@ -19,9 +19,9 @@ type AdventureSummaryPageProps = {
 
 const AdventureSummaryPage = async ({ params }: AdventureSummaryPageProps) => {
   const slug = (await params).slug
-  
-  const adventuresApi = await AdventuresWodApi()
+
   const tagsApi = await TagsApi()
+  const adventuresApi = await AdventuresWodApi()
   const userProfilesApi = await UserProfilesApi()
 
   const supabase = await createClient()
@@ -34,36 +34,28 @@ const AdventureSummaryPage = async ({ params }: AdventureSummaryPageProps) => {
     return redirect('/')
   }
 
-  const adventure = await adventuresApi.getBySlug(slug);
+  const adventure = await adventuresApi.getBySlug(slug)
+  const tags = await tagsApi.listAll()
 
   if (!adventure) redirect('/wod/adventures')
 
-  const adventureTags = adventure.tags ? await tagsApi.listBySlug(adventure.tags) : []
+  const adventureTags = adventure.tags ? adventure.tags.map((slug) => tags.find((tag) => tag.slug === slug)!) : []
   const dgMaster = await userProfilesApi.getById(adventure?.dg_master_id)
 
   return (
     <div className="max-w-4xl mx-auto space-y-8 px-4">
       <div className="relative h-48 sm:h-64 md:h-80 w-full rounded-xl overflow-hidden">
-        <Image
-          src={adventure.image_url!}
-          alt={adventure.name}
-          layout="fill"
-          objectFit="cover"
-          priority
-        />
+        <Image src={adventure.image_url!} alt={adventure.name} layout="fill" objectFit="cover" priority />
       </div>
 
       <div className="space-y-4">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
           <h1 className="text-3xl sm:text-4xl font-bold">{adventure.name}</h1>
-          <div className="flex flex-wrap gap-2">
-            <Badge variant={adventure.is_active ? "default" : "secondary"}>
-              {adventure.is_active ? "Active" : "Inactive"}
-            </Badge>
-            <Badge variant={adventure.looking_for_players ? "default" : "outline"}>
-              {adventure.looking_for_players ? "Looking for Players" : "Party Full"}
-            </Badge>
-          </div>
+            <div className="flex flex-wrap gap-2">
+            <WodAdventureDialog adventure={adventure} tags={tags} />
+              <Badge variant={adventure.is_active ? 'default' : 'secondary'}>{adventure.is_active ? 'Active' : 'Inactive'}</Badge>
+              <Badge variant={adventure.looking_for_players ? 'default' : 'outline'}>{adventure.looking_for_players ? 'Looking for Players' : 'Party Full'}</Badge>
+            </div>
         </div>
         <p className="text-xl text-muted-foreground">{adventure.short_description}</p>
       </div>
@@ -79,11 +71,16 @@ const AdventureSummaryPage = async ({ params }: AdventureSummaryPageProps) => {
           </div>
           <div className="flex items-center">
             <Clock className="mr-2 h-4 w-4" />
-            <span>Session duration: {adventure.session_duration} {adventure.session_duration === 1 ? "hour" : "hours"}</span>
+            <span>
+              Session duration: {adventure.session_duration} {adventure.session_duration === 1 ? 'hour' : 'hours'}
+            </span>
           </div>
           <div className="flex items-center">
             <Users className="mr-2 h-4 w-4" />
-            <span>Players: {3}/{adventure.max_players}</span> {/* Placeholder: this will be the number of players linked with the adventure / adventure max players */}
+            <span>
+              Players: {3}/{adventure.max_players}
+            </span>{' '}
+            {/* Placeholder: this will be the number of players linked with the adventure / adventure max players */}
           </div>
           <div className="flex items-center">
             <User className="mr-2 h-4 w-4" />
@@ -101,7 +98,9 @@ const AdventureSummaryPage = async ({ params }: AdventureSummaryPageProps) => {
         <h2 className="text-2xl font-semibold mb-4">Tags</h2>
         <div className="flex flex-wrap gap-2">
           {adventureTags.map((tag) => (
-            <Badge key={tag.id} variant="outline">{tag.name}</Badge>
+            <Badge key={tag.id} variant="outline">
+              {tag.name}
+            </Badge>
           ))}
         </div>
       </div>
@@ -110,7 +109,7 @@ const AdventureSummaryPage = async ({ params }: AdventureSummaryPageProps) => {
 
       <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
         <Button size="lg" disabled={!adventure.looking_for_players}>
-          {adventure.looking_for_players ? "Ask to join Adventure" : "Party Full"}
+          {adventure.looking_for_players ? 'Ask to join Adventure' : 'Party Full'}
         </Button>
         <div className="flex items-center text-muted-foreground">
           <Shield className="mr-2 h-4 w-4" />
