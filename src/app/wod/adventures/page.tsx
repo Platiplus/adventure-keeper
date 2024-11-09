@@ -3,14 +3,14 @@ import { redirect } from 'next/navigation'
 import { AdventuresWodApi } from '@/api/server/wod/adventure-wod.api'
 import { User, Calendar } from 'lucide-react'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
+import { NewWodAdventureDialog } from '@/components/dialogs/new-wod-adventure-dialog'
 
-import dayjs from 'dayjs'
-import NewWodAdventure from '@/components/dialogs/new-wod-adventure-dialog'
 import Link from 'next/link'
 import Image from 'next/image'
+import dayjs from 'dayjs'
 
 const AdventuresPage = async () => {
-  const adventuresRepository = await AdventuresWodApi()
+  const adventuresApi = await AdventuresWodApi()
   const supabase = await createClient()
 
   const {
@@ -21,13 +21,13 @@ const AdventuresPage = async () => {
     return redirect('/')
   }
 
-  const adventures = await adventuresRepository.listAll();
+  const adventures = await adventuresApi.listAll();
 
   return (
     <div className="p-4 space-y-4">
       <div className="flex justify-between items-center">
         <h1 className="text-2xl font-bold">Adventures</h1>
-        <NewWodAdventure />
+        <NewWodAdventureDialog />
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {adventures.map((adventure) => (

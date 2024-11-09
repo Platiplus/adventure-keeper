@@ -41,10 +41,14 @@ export type Database = {
           id: number
           image_url: string | null
           is_active: boolean | null
+          long_description: string | null
           looking_for_players: boolean | null
+          max_players: number
           name: string
+          session_duration: number
           short_description: string | null
           slug: string
+          tags: string[] | null
         }
         Insert: {
           created_at?: string
@@ -52,10 +56,14 @@ export type Database = {
           id?: number
           image_url?: string | null
           is_active?: boolean | null
+          long_description?: string | null
           looking_for_players?: boolean | null
+          max_players?: number
           name: string
+          session_duration?: number
           short_description?: string | null
           slug?: string
+          tags?: string[] | null
         }
         Update: {
           created_at?: string
@@ -63,10 +71,14 @@ export type Database = {
           id?: number
           image_url?: string | null
           is_active?: boolean | null
+          long_description?: string | null
           looking_for_players?: boolean | null
+          max_players?: number
           name?: string
+          session_duration?: number
           short_description?: string | null
           slug?: string
+          tags?: string[] | null
         }
         Relationships: []
       }
@@ -93,6 +105,27 @@ export type Database = {
           is_active?: boolean
           name?: string
           short_description?: string | null
+          slug?: string
+        }
+        Relationships: []
+      }
+      tags: {
+        Row: {
+          description: string
+          id: number
+          name: string
+          slug: string
+        }
+        Insert: {
+          description: string
+          id?: number
+          name: string
+          slug: string
+        }
+        Update: {
+          description?: string
+          id?: number
+          name?: string
           slug?: string
         }
         Relationships: []

@@ -7,7 +7,7 @@ import { useIsMobile } from '@/hooks/use-mobile'
 import { useState } from 'react'
 import NewWodAdventureForm from '../forms/new-wod-adventure-form'
 
-const NewWodAdventure = () => {
+export const NewWodAdventureDialog = () => {
   const [open, setOpen] = useState(false)
   const isMobile = useIsMobile()
 
@@ -52,5 +52,3 @@ const NewWodAdventure = () => {
     </Dialog>
   )
 }
-
-export default NewWodAdventure

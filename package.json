@@ -7,6 +7,7 @@
     "supabase-migrate": "npx supabase db diff --use-migra -f ${npm_config_name} && npx supabase gen types typescript --local > ./src/lib/database.types.ts"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.688.0",
     "@hookform/resolvers": "^3.9.1",
     "@radix-ui/react-avatar": "^1.1.1",
     "@radix-ui/react-checkbox": "^1.1.2",

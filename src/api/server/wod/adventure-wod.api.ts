@@ -7,15 +7,15 @@ export const AdventuresWodApi = async () => {
   const client = await createClient()
 
   const getById = async (id: string): Promise<Adventure | null> => {
-    const adventures_wod = await client.from('adventures_wod').select('*').eq('id', id).single()
+    const adventure_wod = await client.from('adventures_wod').select('*').eq('id', id).single()
 
-    return adventures_wod.data ?? null
+    return adventure_wod.data ?? null
   }
 
   const getBySlug = async (slug: string): Promise<Adventure | null> => {
-    const adventures_wod = await client.from('adventures_wod').select('*').eq('slug', slug).single()
+    const adventure_wod = await client.from('adventures_wod').select('*').eq('slug', slug).single()
 
-    return adventures_wod.data ?? null
+    return adventure_wod.data ?? null
   }
 
   const listAll = async (): Promise<Adventure[]> => {

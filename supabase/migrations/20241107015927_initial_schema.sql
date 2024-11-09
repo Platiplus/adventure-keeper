@@ -79,6 +79,20 @@ END;$function$
 
 create trigger create_user_profile_on_signup after insert on auth.users for each row execute function insert_new_user_profile_data();
 
+grant delete on table "public"."adventures_wod" to "anon";
+
+grant insert on table "public"."adventures_wod" to "anon";
+
+grant references on table "public"."adventures_wod" to "anon";
+
+grant select on table "public"."adventures_wod" to "anon";
+
+grant trigger on table "public"."adventures_wod" to "anon";
+
+grant truncate on table "public"."adventures_wod" to "anon";
+
+grant update on table "public"."adventures_wod" to "anon";
+
 grant delete on table "public"."adventures_wod" to "authenticated";
 
 grant insert on table "public"."adventures_wod" to "authenticated";
@@ -107,6 +121,20 @@ grant truncate on table "public"."adventures_wod" to "service_role";
 
 grant update on table "public"."adventures_wod" to "service_role";
 
+grant delete on table "public"."available_systems" to "anon";
+
+grant insert on table "public"."available_systems" to "anon";
+
+grant references on table "public"."available_systems" to "anon";
+
+grant select on table "public"."available_systems" to "anon";
+
+grant trigger on table "public"."available_systems" to "anon";
+
+grant truncate on table "public"."available_systems" to "anon";
+
+grant update on table "public"."available_systems" to "anon";
+
 grant delete on table "public"."available_systems" to "authenticated";
 
 grant insert on table "public"."available_systems" to "authenticated";
@@ -134,6 +162,20 @@ grant trigger on table "public"."available_systems" to "service_role";
 grant truncate on table "public"."available_systems" to "service_role";
 
 grant update on table "public"."available_systems" to "service_role";
+
+grant delete on table "public"."user_profiles" to "anon";
+
+grant insert on table "public"."user_profiles" to "anon";
+
+grant references on table "public"."user_profiles" to "anon";
+
+grant select on table "public"."user_profiles" to "anon";
+
+grant trigger on table "public"."user_profiles" to "anon";
+
+grant truncate on table "public"."user_profiles" to "anon";
+
+grant update on table "public"."user_profiles" to "anon";
 
 grant delete on table "public"."user_profiles" to "authenticated";
 
@@ -212,9 +254,9 @@ to public
 using ((( SELECT auth.uid() AS uid) = id));
 
 
-create policy "Enable users to view their own profile"
+create policy "Enable users to view profiles"
 on "public"."user_profiles"
 as permissive
 for select
 to authenticated
-using ((( SELECT auth.uid() AS uid) = id));
+using (true);

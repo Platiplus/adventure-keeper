@@ -3,7 +3,6 @@
 import { useState } from 'react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
-import * as z from 'zod'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
@@ -12,11 +11,7 @@ import { Textarea } from '@/components/ui/textarea'
 import { useAction } from 'next-safe-action/hooks'
 import { createWodAdventure } from '@/actions/adventure/wod/create-adventure'
 import { toast } from '@/hooks/use-toast'
-import logger from '@/lib/logger'
-
-const uploadImageToSupabase = async (file: File) => {
-  return 'https://placehold.co/600x400/EEE/31343C/png?font=montserrat&text=PENDING'
-}
+import * as z from 'zod'
 
 const formSchema = z.object({
   name: z.string().min(2, {
@@ -44,7 +39,7 @@ const NewWodAdventureForm = () => {
       toast({
         title: 'Error',
         description: error.serverError,
-        variant: 'destructive'
+        variant: 'destructive',
       })
     },
   })
@@ -68,22 +63,13 @@ const NewWodAdventureForm = () => {
   }
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    try {
-      let imageUrl = ''
-      if (values.image) {
-        imageUrl = await uploadImageToSupabase(values.image)
-      }
-
-      const adventureData = {
-        ...values,
-        image_url: imageUrl,
-        slug: slug,
-      }
-
-      execute(adventureData)
-    } catch (error) {
-      logger.error('Error submitting form:', error)
+    const adventureData = {
+      ...values,
+      image: values.image,
+      slug: slug,
     }
+
+    execute(adventureData)
   }
 
   return (
@@ -148,7 +134,7 @@ const NewWodAdventureForm = () => {
           render={({ field }) => (
             <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
               <FormControl>
-                <Checkbox checked={field.value} onCheckedChange={field.onChange} className='w-5 h-5' />
+                <Checkbox checked={field.value} onCheckedChange={field.onChange} className="w-5 h-5" />
               </FormControl>
               <div className="space-y-1 leading-none">
                 <FormLabel>Looking for Players</FormLabel>
@@ -164,7 +150,7 @@ const NewWodAdventureForm = () => {
           render={({ field }) => (
             <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
               <FormControl>
-                <Checkbox checked={field.value} onCheckedChange={field.onChange} className='w-5 h-5' />
+                <Checkbox checked={field.value} onCheckedChange={field.onChange} className="w-5 h-5" />
               </FormControl>
               <div className="space-y-1 leading-none">
                 <FormLabel>Active Adventure</FormLabel>
@@ -183,12 +169,16 @@ const NewWodAdventureForm = () => {
               <FormControl>
                 <Input {...field} disabled value={slug} />
               </FormControl>
-              <FormDescription>This is the URL-friendly version of your adventure name. It's generated automatically along with a small hash at the end for uniqueness.</FormDescription>
+              <FormDescription>
+                This is the URL-friendly version of your adventure name. It's generated automatically along with a small hash at the end for uniqueness.
+              </FormDescription>
             </FormItem>
           )}
         />
 
-        <Button loading={isPending} className='xs:w-full' type="submit">Create Adventure</Button>
+        <Button loading={isPending} className="xs:w-full" type="submit">
+          Create Adventure
+        </Button>
       </form>
     </Form>
   )
