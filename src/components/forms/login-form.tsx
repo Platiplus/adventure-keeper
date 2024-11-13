@@ -14,7 +14,7 @@ export const LoginForm = () => {
   const { toast } = useToast()
 
   const { execute, isPending } = useAction(loginWithProvider, {
-    onError: ({ error }) => {
+    onError: () => {
       toast({
         variant: 'destructive',
         title: 'Uh oh! Something went wrong.',

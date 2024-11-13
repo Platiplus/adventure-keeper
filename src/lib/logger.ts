@@ -5,25 +5,25 @@ class Logger {
     this.isDevelopment = process.env.NODE_ENV !== 'production'
   }
 
-  info(message?: string, ...optionalParams: any[]) {
+  info(message?: string, ...optionalParams: unknown[]) {
     if (this.isDevelopment) {
       console.info(`[INFO]: ${message}`, ...optionalParams)
     }
   }
 
-  warn(message?: string, ...optionalParams: any[]) {
+  warn(message?: string, ...optionalParams: unknown[]) {
     if (this.isDevelopment) {
       console.warn(`[WARN]: ${message}`, ...optionalParams)
     }
   }
 
-  error(message?: string, ...optionalParams: any[]) {
+  error(message?: string, ...optionalParams: unknown[]) {
     if (this.isDevelopment) {
       console.error(`[ERROR]: ${message}`, ...optionalParams)
     }
   }
 
-  debug(message?: string, ...optionalParams: any[]) {
+  debug(message?: string, ...optionalParams: unknown[]) {
     if (this.isDevelopment) {
       console.debug(`[DEBUG]: ${message}`, ...optionalParams)
     }
