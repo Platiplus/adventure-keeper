@@ -165,6 +165,33 @@ export type Database = {
         }
         Relationships: []
       }
+      cod_conditions: {
+        Row: {
+          description: string
+          id: number
+          name: string
+          persistent: boolean
+          resolution: string
+          slug: string
+        }
+        Insert: {
+          description: string
+          id?: number
+          name: string
+          persistent?: boolean
+          resolution: string
+          slug: string
+        }
+        Update: {
+          description?: string
+          id?: number
+          name?: string
+          persistent?: boolean
+          resolution?: string
+          slug?: string
+        }
+        Relationships: []
+      }
       cod_merits: {
         Row: {
           effect: string
