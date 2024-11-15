@@ -7,21 +7,21 @@ export const UserProfilesApi = async () => {
   const client = await createClient()
 
   const getById = async (id: string): Promise<UserProfile | null> => {
-    const tag = await client.from('user_profiles').select('*').eq('id', id).single()
+    const tag = await client.from('adk_user_profiles').select('*').eq('id', id).single()
 
     return tag.data ?? null
   }
 
   const listAll = async (): Promise<UserProfile[]> => {
-    const tags = await client.from('user_profiles').select('*')
+    const profiles = await client.from('adk_user_profiles').select('*')
 
-    return tags.data ?? []
+    return profiles.data ?? []
   }
 
   const listAllWithFilters = async (filters: Partial<UserProfile>): Promise<UserProfile[]> => {
-    const tags = await client.from('user_profiles').select('*').eq('filters', filters)
+    const profiles = await client.from('adk_user_profiles').select('*').eq('filters', filters)
 
-    return tags.data ?? []
+    return profiles.data ?? []
   }
 
   return {

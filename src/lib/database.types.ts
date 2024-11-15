@@ -34,55 +34,7 @@ export type Database = {
   }
   public: {
     Tables: {
-      adventures_wod: {
-        Row: {
-          created_at: string
-          dg_master_id: string
-          id: number
-          image_url: string | null
-          is_active: boolean
-          long_description: string | null
-          looking_for_players: boolean
-          max_players: number
-          name: string
-          session_duration: number
-          short_description: string
-          slug: string
-          tags: string[] | null
-        }
-        Insert: {
-          created_at?: string
-          dg_master_id: string
-          id?: number
-          image_url?: string | null
-          is_active?: boolean
-          long_description?: string | null
-          looking_for_players?: boolean
-          max_players?: number
-          name: string
-          session_duration?: number
-          short_description: string
-          slug?: string
-          tags?: string[] | null
-        }
-        Update: {
-          created_at?: string
-          dg_master_id?: string
-          id?: number
-          image_url?: string | null
-          is_active?: boolean
-          long_description?: string | null
-          looking_for_players?: boolean
-          max_players?: number
-          name?: string
-          session_duration?: number
-          short_description?: string | null
-          slug?: string
-          tags?: string[] | null
-        }
-        Relationships: []
-      }
-      available_systems: {
+      adk_available_systems: {
         Row: {
           id: number
           image_url: string | null
@@ -96,7 +48,7 @@ export type Database = {
           image_url?: string | null
           is_active?: boolean
           name: string
-          short_description?: string | null
+          short_description: string
           slug: string
         }
         Update: {
@@ -104,12 +56,12 @@ export type Database = {
           image_url?: string | null
           is_active?: boolean
           name?: string
-          short_description?: string | null
+          short_description?: string
           slug?: string
         }
         Relationships: []
       }
-      tags: {
+      adk_tags: {
         Row: {
           description: string
           id: number
@@ -130,7 +82,7 @@ export type Database = {
         }
         Relationships: []
       }
-      user_profiles: {
+      adk_user_profiles: {
         Row: {
           avatar_url: string
           email: string
@@ -157,13 +109,94 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "user_profiles_primary_system_id_fkey"
+            foreignKeyName: "adk_user_profiles_primary_system_id_fkey"
             columns: ["primary_system_id"]
             isOneToOne: false
-            referencedRelation: "available_systems"
+            referencedRelation: "adk_available_systems"
             referencedColumns: ["id"]
           },
         ]
+      }
+      cod_adventures: {
+        Row: {
+          tags: string[] | null
+          created_at: string
+          dg_master_id: string
+          id: number
+          image_url: string | null
+          is_active: boolean
+          long_description: string | null
+          looking_for_players: boolean
+          max_players: number
+          name: string
+          session_duration: number
+          short_description: string
+          slug: string
+        }
+        Insert: {
+          tags?: string[] | null
+          created_at?: string
+          dg_master_id: string
+          id?: number
+          image_url?: string | null
+          is_active?: boolean
+          long_description?: string | null
+          looking_for_players?: boolean
+          max_players?: number
+          name: string
+          session_duration?: number
+          short_description: string
+          slug?: string
+        }
+        Update: {
+          tags?: string[] | null
+          created_at?: string
+          dg_master_id?: string
+          id?: number
+          image_url?: string | null
+          is_active?: boolean
+          long_description?: string | null
+          looking_for_players?: boolean
+          max_players?: number
+          name?: string
+          session_duration?: number
+          short_description?: string
+          slug?: string
+        }
+        Relationships: []
+      }
+      cod_merits: {
+        Row: {
+          effect: string
+          extra_info: string | null
+          id: number
+          level: number
+          name: string
+          prerequisites: string | null
+          slug: string
+          uniqueness_id: string | null
+        }
+        Insert: {
+          effect: string
+          extra_info?: string | null
+          id?: number
+          level?: number
+          name: string
+          prerequisites?: string | null
+          slug: string
+          uniqueness_id?: string | null
+        }
+        Update: {
+          effect?: string
+          extra_info?: string | null
+          id?: number
+          level?: number
+          name?: string
+          prerequisites?: string | null
+          slug?: string
+          uniqueness_id?: string | null
+        }
+        Relationships: []
       }
     }
     Views: {

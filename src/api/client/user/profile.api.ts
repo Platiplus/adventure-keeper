@@ -22,7 +22,7 @@ export const UserProfilesApi = () => {
       return null
     }
 
-    const { data, error } = await supabase.from('user_profiles').select('*').eq('id', id).single()
+    const { data, error } = await supabase.from('adk_user_profiles').select('*').eq('id', id).single()
 
     if (error) {
       logger.error('Error fetching user profile:', error)

@@ -1,9 +1,9 @@
 import { createClient } from '@/utils/supabase/server'
 import { redirect } from 'next/navigation'
-import { AdventuresWodApi } from '@/api/server/wod/adventure-wod.api'
+import { AdventuresCodApi } from '@/api/server/cod/adventure-cod.api'
 import { User, Calendar } from 'lucide-react'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
-import { WodAdventureDialog } from '@/components/dialogs/wod-adventure-dialog'
+import { CodAdventureDialog } from '@/components/dialogs/cod-adventure-dialog'
 
 import Link from 'next/link'
 import Image from 'next/image'
@@ -11,7 +11,7 @@ import dayjs from 'dayjs'
 import { TagsApi } from '@/api/server/common/tags.api'
 
 const AdventuresPage = async () => {
-  const adventuresApi = await AdventuresWodApi()
+  const adventuresApi = await AdventuresCodApi()
   const tagsApi = await TagsApi()
   const supabase = await createClient()
 
@@ -30,11 +30,11 @@ const AdventuresPage = async () => {
     <div className="p-4 space-y-4">
       <div className="flex justify-between items-center">
         <h1 className="text-2xl font-bold">Adventures</h1>
-        <WodAdventureDialog tags={adventureTags}/>
+        <CodAdventureDialog tags={adventureTags}/>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {adventures.map((adventure) => (
-          <Link key={adventure.id} href={`/wod/adventures/${adventure.slug}`}>
+          <Link key={adventure.id} href={`/cod/adventures/${adventure.slug}`}>
             <Card key={adventure.id} className="cursor-pointer hover:bg-accent transition-colors">
               <CardHeader>
                 <CardTitle className='text-primary'>{adventure.name}</CardTitle>

@@ -29,8 +29,8 @@ export const updateSession = async (request: NextRequest) => {
   const user = await supabase.auth.getUser()
 
   if (request.nextUrl.pathname === '/' && !user.error) {
-    const primarySystem = await supabase.from("user_profiles").select('available_systems (slug)').eq("id", user.data.user.id).single();
-    return NextResponse.redirect(new URL(`/${primarySystem.data?.available_systems?.slug ?? 'wod'}/dashboard`, request.url))
+    const primarySystem = await supabase.from("adk_user_profiles").select('adk_available_systems (slug)').eq("id", user.data.user.id).single();
+    return NextResponse.redirect(new URL(`/${primarySystem.data?.adk_available_systems?.slug ?? 'cod'}/dashboard`, request.url))
   }
 
   return response

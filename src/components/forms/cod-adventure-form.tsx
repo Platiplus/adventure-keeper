@@ -10,12 +10,12 @@ import { ScrollArea } from '@/components/ui/scroll-area'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { useAction } from 'next-safe-action/hooks'
-import { createWodAdventure } from '@/actions/adventure/wod/create-adventure'
+import { createCodAdventure } from '@/actions/adventure/cod/create-adventure'
 import { toast } from '@/hooks/use-toast'
 import * as z from 'zod'
-import { Adventure, Tag } from '@/lib/application.types'
-import { updateWodAdventure } from '@/actions/adventure/wod/update-adventure'
-import { deleteWodAdventure } from '@/actions/adventure/wod/delete-adventure'
+import { CodAdventure, Tag } from '@/lib/application.types'
+import { updateCodAdventure } from '@/actions/adventure/cod/update-adventure'
+import { deleteCodAdventure } from '@/actions/adventure/cod/delete-adventure'
 import { redirect } from 'next/navigation'
 
 const formSchema = z.object({
@@ -38,15 +38,15 @@ const formSchema = z.object({
 })
 
 type AdventureFormProps = {
-  adventure?: Adventure
+  adventure?: CodAdventure
   tags?: Tag[]
 }
 
-export const WodAdventureForm = ({ adventure, tags }: AdventureFormProps = {}) => {
+export const CodAdventureForm = ({ adventure, tags }: AdventureFormProps = {}) => {
   const [slug, setSlug] = useState('')
   const isEditing = !!adventure
 
-  const { execute, isPending } = useAction(isEditing ? updateWodAdventure : createWodAdventure, {
+  const { execute, isPending } = useAction(isEditing ? updateCodAdventure : createCodAdventure, {
     onSuccess: () => {
       toast({
         title: isEditing ? 'Adventure updated!' : 'Adventure created!',
@@ -62,13 +62,13 @@ export const WodAdventureForm = ({ adventure, tags }: AdventureFormProps = {}) =
     },
   })
 
-  const { execute: executeDelete, isPending: isPendingDelete } = useAction(deleteWodAdventure, {
+  const { execute: executeDelete, isPending: isPendingDelete } = useAction(deleteCodAdventure, {
     onSuccess: () => {
       toast({
         title: 'Adventure deleted!',
         description: 'Your adventure has been successfully deleted.',
       })
-      redirect('/wod/adventures')
+      redirect('/cod/adventures')
     },
     onError: ({ error }) => {
       toast({

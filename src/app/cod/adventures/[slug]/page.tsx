@@ -3,7 +3,7 @@ import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
-import { AdventuresWodApi } from '@/api/server/wod/adventure-wod.api'
+import { AdventuresCodApi } from '@/api/server/cod/adventure-cod.api'
 import { createClient } from '@/utils/supabase/server'
 import { redirect } from 'next/navigation'
 
@@ -11,7 +11,7 @@ import Image from 'next/image'
 import dayjs from 'dayjs'
 import { TagsApi } from '@/api/server/common/tags.api'
 import { UserProfilesApi } from '@/api/server/common/profiles.api'
-import { WodAdventureDialog } from '@/components/dialogs/wod-adventure-dialog'
+import { CodAdventureDialog } from '@/components/dialogs/cod-adventure-dialog'
 
 type AdventureSummaryPageProps = {
   params: Promise<{ slug: string }>
@@ -21,7 +21,7 @@ const AdventureSummaryPage = async ({ params }: AdventureSummaryPageProps) => {
   const slug = (await params).slug
 
   const tagsApi = await TagsApi()
-  const adventuresApi = await AdventuresWodApi()
+  const adventuresApi = await AdventuresCodApi()
   const userProfilesApi = await UserProfilesApi()
 
   const supabase = await createClient()
@@ -37,7 +37,7 @@ const AdventureSummaryPage = async ({ params }: AdventureSummaryPageProps) => {
   const adventure = await adventuresApi.getBySlug(slug)
   const tags = await tagsApi.listAll()
 
-  if (!adventure) redirect('/wod/adventures')
+  if (!adventure) redirect('/cod/adventures')
 
   const adventureTags = adventure.tags ? adventure.tags.map((slug) => tags.find((tag) => tag.slug === slug)!) : []
   const dgMaster = await userProfilesApi.getById(adventure?.dg_master_id)
@@ -52,7 +52,7 @@ const AdventureSummaryPage = async ({ params }: AdventureSummaryPageProps) => {
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
           <h1 className="text-3xl sm:text-4xl font-bold">{adventure.name}</h1>
             <div className="flex flex-wrap gap-2">
-            <WodAdventureDialog adventure={adventure} tags={tags} />
+            <CodAdventureDialog adventure={adventure} tags={tags} />
               <Badge variant={adventure.is_active ? 'default' : 'secondary'}>{adventure.is_active ? 'Active' : 'Inactive'}</Badge>
               <Badge variant={adventure.looking_for_players ? 'default' : 'outline'}>{adventure.looking_for_players ? 'Looking for Players' : 'Party Full'}</Badge>
             </div>

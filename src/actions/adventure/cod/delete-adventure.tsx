@@ -9,7 +9,7 @@ const schema = z.object({
   id: z.number().int().positive().optional(),
 })
 
-export const deleteWodAdventure = actionClient.schema(schema).action(async ({ parsedInput }) => {
+export const deleteCodAdventure = actionClient.schema(schema).action(async ({ parsedInput }) => {
   const supabase = await createClient()
   const user = await supabase.auth.getUser()
 
@@ -18,7 +18,7 @@ export const deleteWodAdventure = actionClient.schema(schema).action(async ({ pa
   if (!parsedInput.id) throw new ActionError('You need to provide an id to delete an adventure')
 
   const { error } = await supabase
-    .from('adventures_wod')
+    .from('cod_adventures')
     .delete()
     .eq('id', parsedInput.id)
 
@@ -26,7 +26,7 @@ export const deleteWodAdventure = actionClient.schema(schema).action(async ({ pa
     throw new ActionError('Something unexpected happened while deleting your adventure', error.message)
   }
 
-  revalidatePath('/wod/dashboard')
-  revalidatePath('/wod/adventures')
-  revalidatePath('/wod/adventures/[slug]', 'page')
+  revalidatePath('/cod/dashboard')
+  revalidatePath('/cod/adventures')
+  revalidatePath('/cod/adventures/[slug]', 'page')
 })

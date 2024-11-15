@@ -30,12 +30,12 @@ const data = {
   dungeonMaster: [
     {
       name: 'Dashboard',
-      url: '/wod/dashboard',
+      url: '/cod/dashboard',
       icon: <DashboardIcon />,
     },
     {
       name: 'Adventures',
-      url: '/wod/adventures',
+      url: '/cod/adventures',
       icon: <GiDiceTwentyFacesTwenty />,
     },
   ],
