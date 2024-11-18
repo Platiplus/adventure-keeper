@@ -119,7 +119,6 @@ export type Database = {
       }
       cod_adventures: {
         Row: {
-          tags: string[] | null
           created_at: string
           dg_master_id: string
           id: number
@@ -132,9 +131,9 @@ export type Database = {
           session_duration: number
           short_description: string
           slug: string
+          tags: string[] | null
         }
         Insert: {
-          tags?: string[] | null
           created_at?: string
           dg_master_id: string
           id?: number
@@ -147,9 +146,9 @@ export type Database = {
           session_duration?: number
           short_description: string
           slug?: string
+          tags?: string[] | null
         }
         Update: {
-          tags?: string[] | null
           created_at?: string
           dg_master_id?: string
           id?: number
@@ -162,6 +161,7 @@ export type Database = {
           session_duration?: number
           short_description?: string
           slug?: string
+          tags?: string[] | null
         }
         Relationships: []
       }
@@ -221,6 +221,39 @@ export type Database = {
           name?: string
           prerequisites?: string | null
           slug?: string
+          uniqueness_id?: string | null
+        }
+        Relationships: []
+      }
+      cod_skills: {
+        Row: {
+          description: string
+          extra_info: string | null
+          id: number
+          level: number
+          name: string
+          slug: string
+          type: string
+          uniqueness_id: string | null
+        }
+        Insert: {
+          description: string
+          extra_info?: string | null
+          id?: number
+          level?: number
+          name: string
+          slug: string
+          type: string
+          uniqueness_id?: string | null
+        }
+        Update: {
+          description?: string
+          extra_info?: string | null
+          id?: number
+          level?: number
+          name?: string
+          slug?: string
+          type?: string
           uniqueness_id?: string | null
         }
         Relationships: []

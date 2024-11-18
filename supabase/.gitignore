@@ -5,4 +5,4 @@
 
 # You can create your seeds that have to be manually run here. EG: seeds that depends on a certain foreign key that is not yet created.
 # These will be also ignored by the seed command
-seeds/manual/*.sql
+seeds/**/*.sql
