@@ -165,6 +165,30 @@ export type Database = {
         }
         Relationships: []
       }
+      cod_attributes: {
+        Row: {
+          description: string
+          id: number
+          name: string
+          slug: string
+          type: string
+        }
+        Insert: {
+          description: string
+          id?: number
+          name: string
+          slug: string
+          type: string
+        }
+        Update: {
+          description?: string
+          id?: number
+          name?: string
+          slug?: string
+          type?: string
+        }
+        Relationships: []
+      }
       cod_conditions: {
         Row: {
           description: string
