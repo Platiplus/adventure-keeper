@@ -225,6 +225,7 @@ export type Database = {
           name: string
           prerequisites: string | null
           slug: string
+          type: string
           uniqueness_id: string | null
         }
         Insert: {
@@ -235,6 +236,7 @@ export type Database = {
           name: string
           prerequisites?: string | null
           slug: string
+          type: string
           uniqueness_id?: string | null
         }
         Update: {
@@ -245,6 +247,7 @@ export type Database = {
           name?: string
           prerequisites?: string | null
           slug?: string
+          type?: string
           uniqueness_id?: string | null
         }
         Relationships: []

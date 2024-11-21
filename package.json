@@ -1,7 +1,7 @@
 {
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
     "supabase-migrate": "npx supabase db diff --use-migra -f ${npm_config_name} && npx supabase gen types typescript --local > ./src/lib/database.types.ts",
